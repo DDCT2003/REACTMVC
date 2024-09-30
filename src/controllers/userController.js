@@ -2,6 +2,8 @@
 import UserModel from '../models/userModel';
 
 class UserController {
+
+  
   getUsers() {
     return UserModel.getAllUsers();
   }
@@ -19,6 +21,7 @@ modifyUser(id, newName) {
 removeUser(id) {
   return UserModel.deleteUser(id);
 }
+
 }
 
 export default new UserController();

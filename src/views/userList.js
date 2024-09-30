@@ -45,13 +45,9 @@ const UserList = () => {
   return (
     <motion.div
     className="user-list-container"
-    initial={{ scale: 0 }}
-    animate={{ rotate: 360, scale: 1 }}
-    transition={{
-    type: "spring",
-    stiffness: 260,
-    damping: 20
-  }}
+    initial={{ opacity: 0, scale: 0.5 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 2 }}
 >
   <h2>Lista de Usuarios  <FontAwesomeIcon  icon={faList} /> </h2>
   

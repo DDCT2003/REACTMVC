@@ -8,7 +8,7 @@ class UserModel {
       ];
       this.currentId = 3; // Mantiene un ID incremental para nuevos usuarios.
     }
-  
+    
     // Método para obtener todos los usuarios
     getAllUsers() {
       return this.users;
@@ -40,6 +40,7 @@ class UserModel {
     }
     return null;
   }
+  
 }
   
   export default new UserModel();
