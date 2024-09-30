@@ -8,13 +8,13 @@ class UserController {
     return UserModel.getAllUsers();
   }
 // Crear un nuevo usuario
-addUser(name) {
-  return UserModel.createUser(name);
+addUser(name,country, number) {
+  return UserModel.createUser(name, country, number);
 }
 
 // Actualizar un usuario
-modifyUser(id, newName) {
-  return UserModel.updateUser(id, newName);
+modifyUser(id, newName,newCountry,newNumber) {
+  return UserModel.updateUser(id, newName, newCountry,newNumber);
 }
 
 // Eliminar un usuario

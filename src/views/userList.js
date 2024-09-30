@@ -11,8 +11,12 @@ const UserList = () => {
 
   const [users, setUsers] = useState([]);
   const [newUser, setNewUser] = useState('');
+  const [newCountry, setNewCountry] = useState('');
+  const [newNumber, setNewNumber] = useState('');
   const [editingId, setEditingId] = useState(null);
   const [editingName, setEditingName] = useState('');
+  const [editingCountry, setEditingCountry] = useState('');
+  const [editingNumber, setEditingNumber] = useState('');
 
   useEffect(() => {
     setUsers(userController.getUsers());
@@ -20,10 +24,12 @@ const UserList = () => {
 
   // Añadir nuevo usuario
   const handleAddUser = () => {
-    if (newUser.trim()) {
-      const addedUser = userController.addUser(newUser);
+    if (newUser.trim() && newCountry.trim() && newNumber.trim()) {
+      const addedUser = userController.addUser(newUser,newCountry,newNumber);
       setUsers([...users, addedUser]);
       setNewUser(''); // Limpiar el campo de entrada
+      setNewCountry(''); // Limpiar el campo de entrada
+      setNewNumber(''); // Limpiar el campo de entrada
     }
   };
 
@@ -35,11 +41,13 @@ const UserList = () => {
 
   // Guardar cambios al editar
   const handleUpdateUser = () => {
-    const updatedUser = userController.modifyUser(editingId, editingName);
+    const updatedUser = userController.modifyUser(editingId, editingName,editingCountry,editingNumber);
     if (updatedUser) {
       setUsers(users.map(user => (user.id === editingId ? updatedUser : user)));
       setEditingId(null); // Dejar de editar
       setEditingName(''); // Limpiar el campo de edición
+      setEditingCountry(''); // Limpiar el campo de edición
+      setEditingNumber(''); // Limpiar el campo de edición
     }
   };    
   return (
@@ -59,11 +67,23 @@ const UserList = () => {
       onChange={e => setNewUser(e.target.value)}
       placeholder="Nombre del nuevo usuario"
     />
+    <input
+      type="text"
+      value={newCountry}
+      onChange={e => setNewCountry(e.target.value)}
+      placeholder="País del nuevo usuario"
+    />
+    <input
+      type="text"
+      value={newNumber}
+      onChange={e => setNewNumber(e.target.value)}
+      placeholder="Número del nuevo usuario"
+    />
     <button onClick={handleAddUser}>Añadir Usuario <FontAwesomeIcon icon={faUser} /><FontAwesomeIcon icon={faAdd} /> </button>
   </div>
 
   {/* Tabla para mostrar los usuarios */}
-  <table border="1" style={{ width: '50%', textAlign: 'center', marginTop: '10px' }} align='center'>
+  <table border="1" style={{ width: '80%', textAlign: 'center', marginTop: '10px' }} align='center'>
     <motion.thead
     initial={{ opacity: 0, scale: 0.5 }}
     animate={{ opacity: 1, scale: 1 }}
@@ -73,10 +93,19 @@ const UserList = () => {
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 3 }}>Nombre</motion.th>
+         <motion.th
+        initial={{ opacity: 0, scale: 0.5 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 3 }}>País</motion.th>
+        <motion.th
+        initial={{ opacity: 0, scale: 0.5 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 3 }}>Número</motion.th>
         <motion.th
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 3 }}>Acciones</motion.th>
+       
       </tr>
     </motion.thead>
     <tbody>
@@ -98,6 +127,38 @@ const UserList = () => {
               user.name
             )}
           </motion.td>
+          <motion.td 
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 3 }}>
+            {editingId === user.id ? (
+              <input
+                type="text"
+                value={editingCountry}
+                onChange={e => setEditingCountry(e.target.value)}
+                placeholder="Editar País"
+                align= "center"
+              />
+            ) : (
+              user.country
+            )}
+          </motion.td>
+          <motion.td 
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 3 }}>
+            {editingId === user.id ? (
+              <input
+                type="text"
+                value={editingNumber}
+                onChange={e => setEditingNumber(e.target.value)}
+                placeholder="Editar nombre"
+                align= "center"
+              />
+            ) : (
+              user.number
+            )}
+          </motion.td>
           <motion.td width={250} 
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -110,6 +171,8 @@ const UserList = () => {
                 <button onClick={() => {
                   setEditingId(user.id);
                   setEditingName(user.name);
+                  setEditingCountry(user.country);
+                  setEditingNumber(user.number);
                 }}>
                   Editar <FontAwesomeIcon icon={faUserEdit} /> 
                 </button>
